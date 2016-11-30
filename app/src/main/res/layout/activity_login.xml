@@ -4,19 +4,34 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--<android.support.v4.widget.CircleImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@android:color/holo_green_dark"/>-->
+        <!--<view-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:content="@drawable/common_google_signin_btn_icon_dark"></view>-->
+    </LinearLayout>
+
 
     <android.support.design.widget.TextInputEditText
         android:id="@+id/login_txtusername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username" />
+        android:hint="Username"
+        android:visibility="gone"/>
 
     <android.support.design.widget.TextInputEditText
         android:id="@+id/login_txtpassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
-        android:password="true" />
+        android:password="true"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="wrap_content"

@@ -1,0 +1,32 @@
+{
+  "client" : [ {
+    "client_info" : {
+      "android_client_info" : {
+        "package_name" : "demo.lgmg.firebasechat.firebase_chat_demo"
+      },
+      "mobilesdk_app_id" : "1:153882615498:android:3038e659bc3381e0"
+    },
+    "oauth_client" : [ {
+      "client_id" : "153882615498-9cbieg2ks5rgsc8214823d1550k2eqt6.apps.googleusercontent.com",
+      "client_type" : 3
+    } ],
+    "services" : {
+      "ads_service" : {
+        "status" : 2
+      },
+      "analytics_service" : {
+        "status" : 1
+      },
+      "appinvite_service" : {
+        "status" : 1
+      }
+    }
+  } ],
+  "configuration_version" : "1",
+  "project_info" : {
+    "firebase_url" : "https://fir-project1-c125c.firebaseio.com",
+    "project_id" : "fir-project1-c125c",
+    "project_number" : "153882615498",
+    "storage_bucket" : "fir-project1-c125c.appspot.com"
+  }
+}

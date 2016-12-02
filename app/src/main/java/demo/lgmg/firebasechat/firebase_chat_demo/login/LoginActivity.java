@@ -26,6 +26,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.crash.FirebaseCrash;
 
 import demo.lgmg.firebasechat.firebase_chat_demo.R;
 
@@ -49,7 +50,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private GoogleApiClient mGoogleApiClient;
 
     private TextInputEditText txtusername, txtpassword;
-    private TextView mStatusTextView;
+    private TextView mStatusTextView,tvusername;
     private TextView mDetailTextView;
 
     @Override
@@ -59,6 +60,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         txtusername = (TextInputEditText) findViewById(R.id.login_txtusername);
         txtpassword = (TextInputEditText) findViewById(R.id.login_txtpassword);
+        tvusername= (TextView) findViewById(R.id.login_tvusername);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -87,6 +89,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         };
 
         ((Button) (findViewById(R.id.login_btnsignin))).setOnClickListener(this);
+        ((Button) (findViewById(R.id.login_btnsignout))).setOnClickListener(this);
+        ((Button) (findViewById(R.id.login_btndisconnect))).setOnClickListener(this);
 
     }
 
@@ -176,9 +180,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //          mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
 //            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
 
+            Log.i(tag, user.getDisplayName());
             Log.i(tag, user.getEmail());
             Log.i(tag, user.getUid());
 
+            tvusername.setText(user.getDisplayName());
 
             findViewById(R.id.login_btnsignin).setVisibility(View.GONE);
             findViewById(R.id.login_btnsignout).setVisibility(View.VISIBLE);
@@ -186,7 +192,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else {
 //            mStatusTextView.setText(R.string.signed_out);
 //            mDetailTextView.setText(null);
-//
+            tvusername.setText("Username");
+
             findViewById(R.id.login_btnsignin).setVisibility(View.VISIBLE);
             findViewById(R.id.login_btnsignout).setVisibility(View.GONE);
             findViewById(R.id.login_btndisconnect).setVisibility(View.GONE);

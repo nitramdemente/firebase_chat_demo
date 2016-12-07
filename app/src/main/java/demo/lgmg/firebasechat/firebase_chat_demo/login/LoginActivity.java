@@ -26,7 +26,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.auth.api.model.GetAccountInfoUserList;
 import com.google.firebase.crash.FirebaseCrash;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import demo.lgmg.firebasechat.firebase_chat_demo.R;
 
@@ -34,10 +42,13 @@ import demo.lgmg.firebasechat.firebase_chat_demo.R;
  * Created by lgmguadama on 11/29/2016.
  */
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, ValueEventListener {
 
     private static final String tag = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
+
+    private FirebaseUser user;
+    private String userPass;
 
     // [START declare_auth]
     private FirebaseAuth mAuth;
@@ -176,10 +187,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void updateUI(FirebaseUser user) {
 //        hideProgressDialog();
+        this.user=user;
         if (user != null) {
 //          mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
 //            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-
             Log.i(tag, user.getDisplayName());
             Log.i(tag, user.getEmail());
             Log.i(tag, user.getUid());
@@ -218,5 +229,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // be available.
         Log.d(tag, "onConnectionFailed:" + connectionResult);
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+    }
+
+    private void registerUser(){
+        Task<AuthResult> task = FirebaseAuth.getInstance().createUserWithEmailAndPassword(user.getEmail(), userPass);
+
+        user = task.getResult().getUser();
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(user.getDisplayName())
+                .build();
+        user.updateProfile(profileUpdates);
+
+    }
+
+    private void registerUserInDatabase(){
+        FirebaseDatabase database= FirebaseDatabase.getInstance();
+        database.getReference().child("users").addListenerForSingleValueEvent(this);
+    }
+
+
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        ArrayList uList=new ArrayList();
+        for (DataSnapshot ds: dataSnapshot.getChildren()){
+            Log.i(tag  ,ds.getKey());
+        }
+    }
+
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
+
     }
 }
